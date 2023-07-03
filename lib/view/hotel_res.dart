@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tourism/constants/constants.dart';
+import 'package:tourism/model/hotel_class.dart';
 
 import '../services/reservation.dart';
 
@@ -26,19 +27,31 @@ class _AddHotelReservationScreenState extends State<AddHotelReservationScreen> {
   DateTime _checkOutDate = DateTime.now();
   final reservation = Reservation();
 
-  bool _isSaving = false;
+  final bool _isSaving = false;
 
-  final List<String> _hotels = [
-    'Atana Musandam Resort',
-    'Starry Domes Desert Camp',
-    'Barcelo Mussanah Resort',
-    'Sama al Wasil Desert Camp',
-    'Sur Grand Hotel',
-    'Sifawy Boutique Hotel',
-    'Sur Plaza Hotel',
-    'Wadi Shab Guest House'
-  ];
-  String _selectedHotel = 'Atana Musandam Resort';
+  final List<String> _hotels = [];
+  String _selectedHotel = '';
+
+  Future<List<String>> extractHotelNames() async {
+  List<HotelClass> hotelList = await reservation.getHotels();
+
+  List<String> hotelNames = [];
+  for (var hotel in hotelList) {
+    hotelNames.add(hotel.name);
+  }
+
+  return hotelNames;
+}
+
+  @override
+  void initState() {
+    super.initState();
+    extractHotelNames().then((value) {
+      setState(() {
+        _hotels.addAll(value);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +108,7 @@ class _AddHotelReservationScreenState extends State<AddHotelReservationScreen> {
                       });
                     }
                   },
-                  child: const Text('Select Check-in Date'),
+                  child: const Text('Select Check-in Date',style: TextStyle(color: Colors.white),),
                 ),
                 const SizedBox(height: 16.0),
                 Text(
@@ -117,7 +130,7 @@ class _AddHotelReservationScreenState extends State<AddHotelReservationScreen> {
                       });
                     }
                   },
-                  child: const Text('Select Check-out Date'),
+                  child: const Text('Select Check-out Date',style: TextStyle(color: Colors.white),),
                 ),
                 const SizedBox(height: 16.0),
                 _isSaving
@@ -129,28 +142,30 @@ class _AddHotelReservationScreenState extends State<AddHotelReservationScreen> {
                           strokeWidth: 2,
                         ),
                       )
-                    : ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(primary2),
+                    : Center(
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(primary2),
+                          ),
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              final hotelName = _selectedHotel;
+                              final checkIn = _checkInDate;
+                              await reservation.addOrder(
+                                  date: checkIn.toString(),
+                                  price: 10000,
+                                  title: hotelName,
+                                  type: 'HOTEL',
+                                  userId: widget.auth.currentUser!.uid,
+                                  context: context);
+                            }
+                          },
+                          child: const Text(
+                            'Add Reservation',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            final hotelName = _selectedHotel;
-                            final checkIn = _checkInDate;
-                            await reservation.addOrder(
-                                date: checkIn.toString(),
-                                price: 10000,
-                                title: hotelName,
-                                type: 'HOTEL',
-                                userId: widget.auth.currentUser!.uid,
-                                context: context);
-                          }
-                        },
-                        child: const Text(
-                          'Add Reservation',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                    ),
               ],
             ),
           ),

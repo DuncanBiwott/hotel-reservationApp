@@ -246,29 +246,25 @@ class _SignUpState extends State<SignUp> {
                                   ],
                                 ),
                               )),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text("Already have an account?"),
-                            TextButton(
-                                onPressed: (() {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => Login(
-                                            auth: widget.auth,
-                                            firestore: widget.firestore,
-                                          )));
-                                }),
-                                child: const Text(
-                                  "Login",
-                                  style: TextStyle(
-                                      color: Colors.black, letterSpacing: 0.5),
-                                )),
-                          ],
-                        ),
+                     
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text("Already have an account?"),
+                          TextButton(
+                              onPressed: (() {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => Login(
+                                          auth: widget.auth,
+                                          firestore: widget.firestore,
+                                        )));
+                              }),
+                              child: const Text(
+                                "Login",
+                                style: TextStyle(
+                                    color: Colors.black, letterSpacing: 0.5),
+                              )),
+                        ],
                       )
                     ],
                   ),

@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flushbar/flutter_flushbar.dart';
+import 'package:tourism/model/flight_class.dart';
+import 'package:tourism/model/hotel_class.dart';
+import 'package:tourism/model/restaurant_class.dart';
 
 import '../model/order.dart';
 
@@ -47,6 +50,55 @@ class Reservation {
     return orders;
   }
 
+   Future<List<HotelClass>> getHotels() async {
+  try {
+    QuerySnapshot hotelSnapshot = await FirebaseFirestore.instance
+        .collection('hotels')
+        .get();
+    List<HotelClass> hotels = [];
+    hotelSnapshot.docs.forEach((doc) {
+      hotels.add(HotelClass.fromSnapshot(doc));
+    });
+    return hotels;
+  } catch (error) {
+    print("Error fetching hotels: $error");
+    return []; 
+  }
+}
+   Future<List<RestaurantClass>> getRestaurants() async {
+  try {
+    QuerySnapshot restaurantSnapshot = await FirebaseFirestore.instance
+        .collection('restaurants')
+        .get();
+    List<RestaurantClass> restaurants = [];
+    restaurantSnapshot.docs.forEach((doc) {
+      restaurants.add(RestaurantClass.fromSnapshot(doc));
+    });
+    return restaurants;
+  } catch (error) {
+    print("Error fetching restaurants: $error");
+    return []; 
+  }
+}
+
+
+   Future<List<FlightClass>> getFlights() async {
+  try {
+    QuerySnapshot flightsSnapshot = await FirebaseFirestore.instance
+        .collection('flights')
+        .get();
+    List<FlightClass> flights = [];
+    flightsSnapshot.docs.forEach((doc) {
+      flights.add(FlightClass.fromSnapshot(doc));
+    });
+    return flights;
+  } catch (error) {
+    print("Error fetching flights: $error");
+    return []; 
+  }
+}
+
+
   Future<void> addOrder({
     required String userId,
     required String title,
@@ -92,6 +144,7 @@ class Reservation {
 
         // Show success Flushbar
         Flushbar(
+          flushbarPosition: FlushbarPosition.TOP,
           message: 'Order added successfully',
           duration: const Duration(seconds: 3),
           backgroundColor: Colors.green,
@@ -102,6 +155,7 @@ class Reservation {
 
       // Show error Flushbar
       Flushbar(
+        flushbarPosition: FlushbarPosition.TOP,
         message: 'An error occurred while adding the order $e',
         duration: Duration(seconds: 3),
         backgroundColor: Colors.red,

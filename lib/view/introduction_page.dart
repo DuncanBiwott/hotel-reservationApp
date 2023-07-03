@@ -84,27 +84,29 @@ class _IntroDuctionScreenState extends State<IntroDuctionScreen> {
               child: Column(
                 children: [
                   const SizedBox(height: 16),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                SignUp(auth: _auth, firestore: _firestore)),
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.arrow_forward,
-                      color: Colors.white,
-                    ),
-                    label: const Text(
-                      'Get Started',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primary2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  SignUp(auth: _auth, firestore: _firestore)),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        'Get Started',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primary2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
                     ),
                   ),

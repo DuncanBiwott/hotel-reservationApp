@@ -41,7 +41,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -186,7 +186,7 @@ class _LoginState extends State<Login> {
                                       ),
                                     )),
                       const SizedBox(
-                        height: 30,
+                        height: 16,
                       ),
                       Align(
                         alignment: Alignment.bottomLeft,
@@ -200,12 +200,10 @@ class _LoginState extends State<Login> {
                             }),
                             child: const Text(
                               "Forgot Password?",
-                              style: TextStyle(color: Colors.black),
+                              style: TextStyle(color: Colors.black,decoration: TextDecoration.underline),
                             )),
                       ),
-                      const SizedBox(
-                        height: 8,
-                      ),
+                    
                       Row(
                         children: [
                           const Text("Don't have an account?"),
@@ -223,7 +221,7 @@ class _LoginState extends State<Login> {
                               }),
                               child: const Text(
                                 "Register",
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(color: Colors.blue),
                               )),
                         ],
                       )

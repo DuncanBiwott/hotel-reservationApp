@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
           buttonColor: primary2,
           textTheme: ButtonTextTheme.primary
         ),
-        appBarTheme: AppBarTheme(
-          backgroundColor: primary,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
         ),
         
       ),

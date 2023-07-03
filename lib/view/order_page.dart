@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tourism/services/reservation.dart';
 
@@ -6,7 +7,7 @@ import '../model/order.dart';
 class OrderPage extends StatefulWidget {
   final String userId;
 
-  OrderPage({required this.userId});
+  OrderPage({required this.userId, required FirebaseAuth auth});
 
   @override
   _OrderPageState createState() => _OrderPageState();

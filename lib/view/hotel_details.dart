@@ -7,7 +7,14 @@ import 'package:tourism/view/hotel_res.dart';
 class HotelDetailsPage extends StatelessWidget {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
-   HotelDetailsPage({super.key, required this.auth, required this.firestore});
+  final String name;
+  final String image;
+  final double amount;
+  final String description;
+  final String location;
+  final String rating;
+  final String reviews;
+   const HotelDetailsPage({super.key, required this.auth, required this.firestore, required this.name, required this.image, required this.amount, required this.description, required this.location, required this.rating, required this.reviews});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +33,9 @@ class HotelDetailsPage extends StatelessWidget {
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: [
-                            Image.asset('assets/images/hotel1.jpeg'),
-                            Image.asset('assets/images/hotel1.jpeg'),
-                            Image.asset('assets/images/hotel1.jpeg'),
+                            Image.network(image),
+                            Image.network(image),
+                            Image.network(image),
                           ],
                         ),
                       ),
@@ -40,7 +47,7 @@ class HotelDetailsPage extends StatelessWidget {
                           child: IconButton(
                             icon: const Icon(Icons.arrow_back),
                             onPressed: () {
-                              // Handle back button press
+                              Navigator.pop(context);
                             },
                           ),
                         ),
@@ -63,16 +70,16 @@ class HotelDetailsPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: Text(
-                      'Hotel Name',
+                      name,
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: dblack),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                     child: Row(
                       children: [
                         Text(
-                          'Hotel Location',
+                          location,
                           style: TextStyle(fontSize: 16),
                         ),
                         SizedBox(width: 5),
@@ -83,7 +90,7 @@ class HotelDetailsPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                     child: Row(
                       children: [
@@ -114,7 +121,7 @@ class HotelDetailsPage extends StatelessWidget {
                         ),
                         SizedBox(width: 5),
                         Text(
-                          '4.5/5 (100 Reviews)',
+                          '$rating ($reviews Reviews)',
                           style: TextStyle(fontSize: 16),
                         ),
                       ],
@@ -127,11 +134,12 @@ class HotelDetailsPage extends StatelessWidget {
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: dblack),
                     ),
                   ),
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.all(16),
                     child: Expanded(
                       child: Text(
-                        'Hotel Luxury offers a luxurious and comfortable stay in the heart of Beautiful City. With its modern amenities, spacious rooms, and exceptional services, it is the perfect choice for both leisure and business travelers. Enjoy stunning views, exquisite dining options, and a range of recreational facilities, including a swimming pool, spa, and fitness center. Our dedicated staff is committed to providing you with an unforgettable experience.',
+                        description,
+                       // 'Hotel Luxury offers a luxurious and comfortable stay in the heart of Beautiful City. With its modern amenities, spacious rooms, and exceptional services, it is the perfect choice for both leisure and business travelers. Enjoy stunning views, exquisite dining options, and a range of recreational facilities, including a swimming pool, spa, and fitness center. Our dedicated staff is committed to providing you with an unforgettable experience.',
                         style: TextStyle(fontSize: 16),
                       ),
                     ),
@@ -182,7 +190,7 @@ class HotelDetailsPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '\$100',
+                          '\$$amount',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

@@ -2,10 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tourism/view/flights.dart';
 import 'package:tourism/view/hotels.dart';
 import 'package:tourism/view/order_page.dart';
-import 'package:tourism/view/restaurants.dart';
+import 'package:tourism/view/profile.dart';
 
 import 'dashboard.dart';
 
@@ -34,14 +33,9 @@ class _HomeState extends State<Home> {
   List<Widget> _pages ()=><Widget> [
     WelcomePage(auth:widget.auth, firestore: widget.firestore,),
     Hotels(auth:widget.auth, firestore: widget.firestore,),
-    Restaurants(auth: widget.auth, firestore: widget.firestore),
-    Flights(auth: widget.auth, firestore: widget.firestore,),
-    OrderPage(userId: user!.uid,)
+    OrderPage(userId: user!.uid, auth: widget.auth,),
+    Profile(auth: widget.auth, firestore: widget.firestore,)
   
-    
-
-    
-    
   ];
 
   void _onItemTapped(int index) {
@@ -68,20 +62,17 @@ class _HomeState extends State<Home> {
               label: "Home",
             ),
             BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.squareH,size: 20.0),
-              label: "Hotel",
+              icon: Icon(Icons.explore,size: 20.0),
+              label: "Explore",
             ),
             BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.utensils,size: 20.0),
-              label: "Restaurant",
+              icon: Icon(FontAwesomeIcons.book,size: 20.0),
+              label: "My bookings",
             ),
+           
             BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.plane,size: 20.0),
-              label: "Flight",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.bagShopping,size: 20.0),
-              label: "Order",
+              icon: Icon(FontAwesomeIcons.user,size: 20.0),
+              label: "Profile",
             ),
             
           ]),

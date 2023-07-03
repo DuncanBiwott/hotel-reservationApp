@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tourism/constants/constants.dart';
+import 'package:tourism/model/restaurant_class.dart';
 import 'package:tourism/services/reservation.dart';
 
 class AddRestaurantReservationScreen extends StatefulWidget {
@@ -28,15 +29,29 @@ class _AddRestaurantReservationScreenState
 
   bool _isSaving = false;
 
-  final List<String> _restaurants = [
-    'Thousand Nights Camp',
-    'Atana Khasab Hotel',
-    'Radisson Blu Hotel Sohar',
-    'Six Senses Zighy Bay',
-    'Turtle Beach Resort',
-  ];
-  String _selectedRestaurant = 'Thousand Nights Camp';
+  final List<String> _restaurants = [];
+  String _selectedRestaurant = '';
 
+  Future<List<String>> extractHotelNames() async {
+  List<RestaurantClass> restaurantList = await reservation.getRestaurants();
+
+  List<String> restaurantNames = [];
+  for (var restaurant in restaurantList) {
+    restaurantNames.add(restaurant.name);
+  }
+
+  return restaurantNames;
+}
+
+  @override
+  void initState() {
+    super.initState();
+    extractHotelNames().then((value) {
+      setState(() {
+        _restaurants.addAll(value);
+      });
+    });
+  }
   @override
   void dispose() {
     _restaurantNameController.dispose();

@@ -31,83 +31,85 @@ class _BookRidePageState extends State<BookRidePage> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                controller: _pickupController,
-                decoration: const InputDecoration(
-                  labelText: 'Pickup location',
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  controller: _pickupController,
+                  decoration: const InputDecoration(
+                    labelText: 'Pickup location',
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter pickup location';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter pickup location';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _destinationController,
-                decoration: const InputDecoration(
-                  labelText: 'Destination',
+                TextFormField(
+                  controller: _destinationController,
+                  decoration: const InputDecoration(
+                    labelText: 'Destination',
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter destination';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter destination';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _dateController,
-                decoration: const InputDecoration(
-                  labelText: 'Date (MM/DD/YYYY)',
+                TextFormField(
+                  controller: _dateController,
+                  decoration: const InputDecoration(
+                    labelText: 'Date (MM/DD/YYYY)',
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter date';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter date';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _timeController,
-                decoration: const InputDecoration(
-                  labelText: 'Time (HH:MM AM/PM)',
+                TextFormField(
+                  controller: _timeController,
+                  decoration: const InputDecoration(
+                    labelText: 'Time (HH:MM AM/PM)',
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter time';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter time';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _passengersController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Number of passengers',
+                TextFormField(
+                  controller: _passengersController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: 'Number of passengers',
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter number of passengers';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter number of passengers';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-              ElevatedButton(
-                style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(primary2),
-                              ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _saveRideData();
-                  }
-                },
-                child: const Text('Book',style: TextStyle(color: Colors.white),),
-              ),
-            ],
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(primary2),
+                                ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _saveRideData();
+                    }
+                  },
+                  child: const Text('Book',style: TextStyle(color: Colors.white),),
+                ),
+              ],
+            ),
           ),
         ),
       ),
