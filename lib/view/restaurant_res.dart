@@ -29,7 +29,7 @@ class _AddRestaurantReservationScreenState
 
   bool _isSaving = false;
 
-  final List<String> _restaurants = [];
+   List<String> _restaurants = [];
   String _selectedRestaurant = '';
 
   Future<List<String>> extractHotelNames() async {
@@ -44,14 +44,17 @@ class _AddRestaurantReservationScreenState
 }
 
   @override
-  void initState() {
-    super.initState();
-    extractHotelNames().then((value) {
-      setState(() {
-        _restaurants.addAll(value);
-      });
+void initState() {
+  super.initState();
+  extractHotelNames().then((value) {
+    setState(() {
+      _restaurants = value; // Update _hotels directly
+      if (_restaurants.isNotEmpty) {
+        _selectedRestaurant = _restaurants[0]; // Set a default selected value if available
+      }
     });
-  }
+  });
+}
   @override
   void dispose() {
     _restaurantNameController.dispose();
@@ -148,7 +151,7 @@ class _AddRestaurantReservationScreenState
                        await reservation.addOrder(date: reservationdtm.toString(),price: 10000, title: restaurantName, type: 'RESTAURANT', userId: widget.auth.currentUser!.uid, context: context);
                     }
                   },
-                  child: const Text('Add Reservation'),
+                  child: const Text('Add Reservation',style: TextStyle(color: Colors.white),),
                 ),
               ],
             ),

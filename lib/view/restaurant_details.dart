@@ -4,9 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tourism/constants/constants.dart';
-import 'package:tourism/view/hotel_res.dart';
+import 'package:tourism/view/restaurant_res.dart';
 
-class HotelDetailsPage extends StatefulWidget {
+class RestaurantDetailsPage extends StatefulWidget {
   final String name;
   final String image;
   final double amount;
@@ -17,7 +17,7 @@ class HotelDetailsPage extends StatefulWidget {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
 
-  const HotelDetailsPage({
+  const RestaurantDetailsPage({
     Key? key,
     required this.name,
     required this.image,
@@ -29,10 +29,10 @@ class HotelDetailsPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<HotelDetailsPage> createState() => _HotelDetailsPageState();
+  State<RestaurantDetailsPage> createState() => _RestaurantDetailsPageState();
 }
 
-class _HotelDetailsPageState extends State<HotelDetailsPage> {
+class _RestaurantDetailsPageState extends State<RestaurantDetailsPage> {
    bool _isOffered = false;
   @override
   Widget build(BuildContext context) {
@@ -200,10 +200,11 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => AddHotelReservationScreen(
+                                    builder: (context) => AddRestaurantReservationScreen(
                                           auth: widget.auth,
                                           firestore: widget.firestore,
                                         )));
+                    
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primary,

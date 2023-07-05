@@ -38,7 +38,7 @@ class _RestaurantsState extends State<Restaurants> {
             future: _restaurantFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: Text("Loading....."));
               } else if (snapshot.hasError) {
                 return const Center(child: Text('Error retrieving data'));
               } else {

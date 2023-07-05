@@ -29,7 +29,7 @@ class _AddHotelReservationScreenState extends State<AddHotelReservationScreen> {
 
   final bool _isSaving = false;
 
-  final List<String> _hotels = [];
+  List<String> _hotels = [];
   String _selectedHotel = '';
 
   Future<List<String>> extractHotelNames() async {
@@ -44,14 +44,17 @@ class _AddHotelReservationScreenState extends State<AddHotelReservationScreen> {
 }
 
   @override
-  void initState() {
-    super.initState();
-    extractHotelNames().then((value) {
-      setState(() {
-        _hotels.addAll(value);
-      });
+void initState() {
+  super.initState();
+  extractHotelNames().then((value) {
+    setState(() {
+      _hotels = value; // Update _hotels directly
+      if (_hotels.isNotEmpty) {
+        _selectedHotel = _hotels[0]; // Set a default selected value if available
+      }
     });
-  }
+  });
+}
 
   @override
   Widget build(BuildContext context) {

@@ -15,6 +15,7 @@ import 'package:tourism/view/flights.dart';
 import 'package:tourism/view/hotel_details.dart';
 import 'package:tourism/view/hotels.dart';
 import 'package:tourism/view/login.dart';
+import 'package:tourism/view/restaurant_details.dart';
 import 'package:tourism/view/restaurants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -88,7 +89,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   value: 'Logout',
                   child: Row(
                     children: [
-                      Icon(FontAwesomeIcons.rightToBracket),
+                      Icon(FontAwesomeIcons.rightToBracket,size: 16,),
                       Text('Logout'),
                     ],
                   ),
@@ -97,7 +98,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   value: 'Profile',
                   child: Row(
                     children: [
-                      Icon(FontAwesomeIcons.user),
+                      Icon(FontAwesomeIcons.user,size: 16,),
                       Text('Profie'),
                     ],
                   ),
@@ -135,6 +136,14 @@ class _WelcomePageState extends State<WelcomePage> {
         height: 400,
         child: Stack(
           children: [
+            Positioned(
+              top: 10,
+              right: 10,
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.search,color: Colors.white,),
+              ),
+             ),
             CarouselSlider(
               items: [
                 Image.asset(
@@ -173,7 +182,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   ],
                 ),
               ),
-              child: Column(
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -207,7 +216,7 @@ class _WelcomePageState extends State<WelcomePage> {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0),
             child: Text(
               'Featured Hotels',
@@ -272,7 +281,7 @@ class _WelcomePageState extends State<WelcomePage> {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0),
             child: Text(
               'Featured Restaurants',
@@ -305,9 +314,9 @@ class _WelcomePageState extends State<WelcomePage> {
         future: _restaurantFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error retrieving data'));
+            return const Center(child: Text('Error retrieving data'));
           } else {
             List<RestaurantClass> restaurants =
                 snapshot.data as List<RestaurantClass>;
@@ -338,7 +347,7 @@ class _WelcomePageState extends State<WelcomePage> {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0),
             child: Text(
               'Featured Flights',
@@ -567,7 +576,7 @@ class _HotelCardState extends State<HotelCard> {
                 children: [
                   Expanded(
                     child: Text(
-                      'Starting at Ksh${widget.amount}/night',
+                      'Starting at \$${widget.amount}/night',
                       style: const TextStyle(
                         fontSize: 16,
                       ),
@@ -668,7 +677,7 @@ class _RestaurantCardState extends State<RestaurantCard> {
                 children: [
                   Expanded(
                     child: Text(
-                      'Starting at Ksh ${widget.amount}',
+                      'Starting at \$${widget.amount}',
                       style: const TextStyle(
                         fontSize: 16,
                       ),
@@ -682,7 +691,7 @@ class _RestaurantCardState extends State<RestaurantCard> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => HotelDetailsPage(
+                            builder: (context) => RestaurantDetailsPage(
                                   auth: widget.auth,
                                   firestore: widget.firestore,
                                   amount: widget.amount,
@@ -762,7 +771,7 @@ class _FlightCardState extends State<FlightCard> {
                 children: [
                   Expanded(
                     child: Text(
-                      'Starting at OMR${widget.amount}',
+                      'Starting at \$${widget.amount}',
                       style: const TextStyle(
                         fontSize: 16,
                       ),

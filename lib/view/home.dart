@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tourism/view/explore_page.dart';
 import 'package:tourism/view/hotels.dart';
 import 'package:tourism/view/order_page.dart';
 import 'package:tourism/view/profile.dart';
@@ -32,7 +33,7 @@ class _HomeState extends State<Home> {
 
   List<Widget> _pages ()=><Widget> [
     WelcomePage(auth:widget.auth, firestore: widget.firestore,),
-    Hotels(auth:widget.auth, firestore: widget.firestore,),
+    Explore(auth:widget.auth, firestore: widget.firestore,),
     OrderPage(userId: user!.uid, auth: widget.auth,),
     Profile(auth: widget.auth, firestore: widget.firestore,)
   
@@ -48,7 +49,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
          body: _pages()[_selectedIndex],
       bottomNavigationBar: Container(
-        color: Colors.green,
         child: BottomNavigationBar(
           type: BottomNavigationBarType.shifting,
           selectedItemColor: Colors.black,
