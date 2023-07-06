@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flushbar/flutter_flushbar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tourism/controller/Root/auth.dart';
+import 'package:tourism/view/login.dart';
 
 class Profile extends StatefulWidget {
   final FirebaseAuth auth;
@@ -12,74 +16,204 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
+  Future _showSuccessMessage(String massage, Color color) {
+    return Flushbar(
+      flushbarPosition: FlushbarPosition.TOP,
+      backgroundColor: color,
+      message: massage,
+      duration: const Duration(seconds: 3),
+    ).show(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-      appBar: AppBar(
-        title: const Text('My Profile'),
-      ),
-      body: ListView(
-        children: [
-          ListTile(
-            leading: const Icon(Icons.arrow_back),
-            onTap: () {
-              Navigator.pop(context); // Navigate back to previous screen
-            },
-          ),
-          ListTile(
-            title: const Text('User Details'),
-            onTap: () {
-              
-            },
-          ),
-          ExpansionTile(
-            title: const Text('Settings and Preferences'),
-            children: [
-              ListTile(
-                leading: const Icon(Icons.notifications),
-                title: const Text('Notification'),
-                trailing: const Icon(Icons.arrow_forward),
-                onTap: () {
-                  
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.dark_mode),
-                title: const Text('Dark Mode'),
-                trailing: Switch(
-                  value: true, // Replace with actual value from user settings
-                  onChanged: (value) {
-                    // Update user settings for dark mode
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: [
+            Row(
+          children: [
+            IconButton(onPressed: (){
+              Navigator.pop(context);},
+               icon:  Icon(FontAwesomeIcons.angleLeft,size: 24,)),
+             Padding(
+              padding: EdgeInsets.only(left:30.0),
+              child: Text('My Profile',style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,),),
+            ),
+          ],
+        ),
+            Container(
+              height: 80,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0),border: Border.all(color: Colors.grey),),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  leading:  Icon(FontAwesomeIcons.user,size: 32,),
+                  trailing:  Icon(FontAwesomeIcons.angleRight,),
+                  title: Row(
+                    children: [
+                      Text("${widget.auth.currentUser?.email}"),
+                      const Icon(Icons.verified,color: Colors.blue,)
+                    ],
+                  ) ,
+                  onTap: () {
+                    
                   },
                 ),
               ),
-              ListTile(
-                title: const Text('Language'),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  
-                },
+            ),
+            Divider(),
+            Container(
+              height: 50,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0),border: Border.all(color: Colors.grey)),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom:10.0),
+                child: ListTile(
+                  leading:  Icon(FontAwesomeIcons.creditCard,size: 32,),
+                  trailing:  Icon(FontAwesomeIcons.angleRight, ),
+                  title:  Text("Payments & purchases") ,
+                  onTap: () {
+                    
+                  },
+                ),
               ),
-              ListTile(
-                title: Text('Security'),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  
-                },
+            ),
+            Divider(),
+             Text("Settings & Preferences",),
+            const SizedBox(height: 5,),
+            Container(
+              height: 50,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0),border: Border.all(color: Colors.grey)),
+              child: Padding(
+                 padding: const EdgeInsets.only(bottom:10.0),
+                child: ListTile(
+                  leading:  Icon(Icons.notifications,),
+                  title:  Text('Notification',),
+                  trailing:  Icon(FontAwesomeIcons.angleRight),
+                  onTap: () {
+                    
+                  },
+                ),
               ),
-            ],
-          ),
-          ListTile(
-            title: Text('Support'),
-            onTap: () {
-              
-            },
-          ),
-        ],
+            ),
+            const SizedBox(height: 10,),
+            Container(
+              height: 50,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0),border: Border.all(color: Colors.grey)),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom:10.0),
+                child: ListTile(
+                  leading:  Icon(Icons.dark_mode),
+                  title:  Text('Dark Mode',),
+                  trailing: Switch(
+                    value: true, 
+                    onChanged: (value) {
+                   
+                    },
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10,),
+            Container(
+              height: 50,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0),border: Border.all(color: Colors.grey)),
+              child: Padding(
+                 padding: const EdgeInsets.only(bottom:10.0),
+                child: ListTile(
+                  title:  Text('Language',),
+                  leading: Icon(FontAwesomeIcons.language,),
+                  trailing:  Icon(FontAwesomeIcons.angleRight,),
+                  onTap: () {
+                    
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 10,),
+            Container(
+              height: 50,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0),border: Border.all(color: Colors.grey)),
+              child: Padding(
+                 padding: const EdgeInsets.only(bottom:10.0),
+                child: ListTile(
+                  title: Text('Security',),
+                  leading: Icon(FontAwesomeIcons.shield,),
+                 trailing:  Icon(FontAwesomeIcons.angleRight,),
+                  onTap: () {
+                    
+                  },
+                ),
+              ),
+            ),
+            Divider(),
+            //Support Section
+            Text('Support',),
+            const SizedBox(height: 5,),
+            Container(
+              height: 50,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0),border: Border.all(color: Colors.grey)),
+              child: Padding(
+                 padding: const EdgeInsets.only(bottom:10.0),
+                child: ListTile(
+                      title: Text('Help center'),
+                      leading:  Icon(FontAwesomeIcons.book,),
+                      trailing:  Icon(FontAwesomeIcons.angleRight,),
+                      onTap: () {
+                        
+                      },
+                    ),
+              ),
+            ),
+            const SizedBox(height: 10,),
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0),border: Border.all(color: Colors.grey)),
+                  child: Padding(
+                     padding: const EdgeInsets.only(bottom:10.0),
+                    child: ListTile(
+                      title: Text('Report a bug'),
+                      leading: Icon(FontAwesomeIcons.flag,),
+                     trailing:  Icon(FontAwesomeIcons.angleRight,),
+                      onTap: () {
+                        
+                      },
+                    ),
+                  ),
+                ),
+                Divider(),
+                TextButton(onPressed: ()async{
+                  String? rvalue =
+                    await Authenticate(auth: widget.auth).signOut();
+                if (rvalue == "Success") {
+                  _showSuccessMessage("Logout Successfull", Colors.green);
+                  Navigator.pushReplacement<void, void>(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => Login(
+                        auth: widget.auth,
+                        firestore: widget.firestore,
+                      ),
+                    ),
+                  );
+                } else {
+                  _showSuccessMessage(rvalue!, Colors.red);
+                }
+
+                }, child:  Row(
+                  children: [
+                    Icon(FontAwesomeIcons.arrowRightToBracket),
+                    SizedBox(width: 10,),
+                    Text("Logout",style: TextStyle(letterSpacing: 0.5,fontSize: 24,fontWeight: FontWeight.bold),)
+                  ],
+                ))
+          ],
+        ),
       ),
     )
     );
   }
 }
-

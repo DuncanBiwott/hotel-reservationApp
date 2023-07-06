@@ -790,7 +790,6 @@ class _FlightCardState extends State<FlightCard> {
                                   firestore: widget.firestore,
                                 )),
                       );
-// Navigate to flight booking page
                     },
                     child: const Text(
                       'Book Now',

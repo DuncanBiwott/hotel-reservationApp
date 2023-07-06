@@ -42,7 +42,7 @@ class _ExploreState extends State<Explore> with SingleTickerProviderStateMixin{
                 ),
                 child: Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       child: TextField(
                         decoration: InputDecoration(
                           hintText: "Search...",
