@@ -94,15 +94,6 @@ class _WelcomePageState extends State<WelcomePage> {
                     ],
                   ),
                 ),
-                const PopupMenuItem(
-                  value: 'Profile',
-                  child: Row(
-                    children: [
-                      Icon(FontAwesomeIcons.user,size: 16,),
-                      Text('Profie'),
-                    ],
-                  ),
-                ),
               ];
             },
             onSelected: (value) async {
@@ -249,9 +240,9 @@ class _WelcomePageState extends State<WelcomePage> {
         future: _hotelsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error retrieving data'));
+            return const Center(child: Text('Error retrieving data'));
           } else {
             List<HotelClass> hotels = snapshot.data as List<HotelClass>;
             return SizedBox(
@@ -271,6 +262,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     location: hotel.location,
                     rating: hotel.rating,
                     reviews: hotel.reviews,
+                     rooms: hotel.rooms!,
                   );
                 },
               ),
@@ -337,6 +329,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     location: restaurant.location,
                     rating: restaurant.rating,
                     reviews: restaurant.reviews,
+                    rooms: restaurant.rooms!,
                   );
                 },
               ),
@@ -522,11 +515,12 @@ class HotelCard extends StatefulWidget {
   final FirebaseFirestore firestore;
   final String image;
   final String name;
-  final double amount;
+  final dynamic amount;
   final String description;
   final String location;
   final String rating;
   final String reviews;
+  final List<dynamic> rooms;
 
   const HotelCard(
       {super.key,
@@ -538,7 +532,8 @@ class HotelCard extends StatefulWidget {
       required this.description,
       required this.location,
       required this.rating,
-      required this.reviews});
+      required this.reviews,
+       required this.rooms});
 
   @override
   State<HotelCard> createState() => _HotelCardState();
@@ -600,6 +595,7 @@ class _HotelCardState extends State<HotelCard> {
                                   name: widget.name,
                                   rating: widget.rating,
                                   reviews: widget.reviews,
+                                   rooms: widget.rooms,
                                 )),
                       );
 // Navigate to hotel reservation page
@@ -624,11 +620,12 @@ class RestaurantCard extends StatefulWidget {
   final FirebaseFirestore firestore;
   final String image;
   final String name;
-  final double amount;
+  final dynamic amount;
   final String description;
   final String location;
   final String rating;
   final String reviews;
+  final List<dynamic> rooms;
 
   const RestaurantCard(
       {super.key,
@@ -640,7 +637,7 @@ class RestaurantCard extends StatefulWidget {
       required this.description,
       required this.location,
       required this.rating,
-      required this.reviews});
+      required this.reviews, required this.rooms});
   @override
   State<RestaurantCard> createState() => _RestaurantCardState();
 }
@@ -701,6 +698,7 @@ class _RestaurantCardState extends State<RestaurantCard> {
                                   name: widget.name,
                                   rating: widget.rating,
                                   reviews: widget.reviews,
+                                  rooms: widget.rooms,
                                 )),
                       );
 // Navigate to restaurant reservation page

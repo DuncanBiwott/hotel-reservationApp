@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flushbar/flutter_flushbar.dart';
+import 'package:tourism/constants/constants.dart';
 import 'package:tourism/controller/Root/auth.dart';
 import 'package:tourism/view/forgot_pass.dart';
 import 'package:tourism/view/register.dart';
@@ -57,10 +58,10 @@ class _LoginState extends State<Login> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Center(
+                       Center(
                           child: Text(
                         "Login",
-                        style: TextStyle(color: Colors.black, fontSize: 50),
+                        style: TextStyle(color: primary2, fontSize: 50),
                       )),
                       const SizedBox(
                         height: 20,
@@ -165,8 +166,9 @@ class _LoginState extends State<Login> {
                                 }
                               },
                               style: ButtonStyle(
+                                
                                 backgroundColor:
-                                    MaterialStateProperty.all(Colors.black),
+                                    MaterialStateProperty.all(primary2),
                               ),
                               child: _isLoading
                                   ? const CircularProgressIndicator()

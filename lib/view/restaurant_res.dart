@@ -9,9 +9,13 @@ import 'package:tourism/services/reservation.dart';
 class AddRestaurantReservationScreen extends StatefulWidget {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
+  final List<dynamic> rooms;
 
   const AddRestaurantReservationScreen(
-      {super.key, required this.auth, required this.firestore});
+      {super.key,
+      required this.auth,
+      required this.firestore,
+      required this.rooms});
 
   @override
   _AddRestaurantReservationScreenState createState() =>
@@ -27,34 +31,44 @@ class _AddRestaurantReservationScreenState
 
   final reservation = Reservation();
 
-  bool _isSaving = false;
+  final bool _isSaving = false;
 
-   List<String> _restaurants = [];
+  List<String> _restaurants = [];
   String _selectedRestaurant = '';
 
   Future<List<String>> extractHotelNames() async {
-  List<RestaurantClass> restaurantList = await reservation.getRestaurants();
+    List<RestaurantClass> restaurantList = await reservation.getRestaurants();
 
-  List<String> restaurantNames = [];
-  for (var restaurant in restaurantList) {
-    restaurantNames.add(restaurant.name);
+    List<String> restaurantNames = [];
+    for (var restaurant in restaurantList) {
+      restaurantNames.add(restaurant.name);
+    }
+
+    return restaurantNames;
   }
 
-  return restaurantNames;
-}
+   List<int>roomslist = [];
+  int? firstRoom; 
+
+
 
   @override
-void initState() {
-  super.initState();
-  extractHotelNames().then((value) {
-    setState(() {
-      _restaurants = value; // Update _hotels directly
-      if (_restaurants.isNotEmpty) {
-        _selectedRestaurant = _restaurants[0]; // Set a default selected value if available
-      }
+  void initState() {
+    super.initState();
+  widget.rooms.forEach((element) {
+      roomslist.add(element);
     });
-  });
-}
+   firstRoom = roomslist[0];
+    extractHotelNames().then((value) {
+      setState(() {
+        _restaurants = value;
+        if (_restaurants.isNotEmpty) {
+          _selectedRestaurant = _restaurants[0];
+        }
+      });
+    });
+  }
+
   @override
   void dispose() {
     _restaurantNameController.dispose();
@@ -100,6 +114,25 @@ void initState() {
                     return null;
                   },
                 ),
+                DropdownButtonFormField<int>(
+  value: firstRoom,
+  items: roomslist.map((int room) {
+    return DropdownMenuItem<int>(
+      value: room,
+      child: Text(room.toString()),
+    );
+  }).toList(),
+  onChanged: (int? newValue) {
+    setState(() {
+      firstRoom = newValue;
+    });
+  },
+  decoration: InputDecoration(
+    labelText: 'Select a Room',
+  ),
+),
+                const SizedBox(height: 16.0),
+                
                 const SizedBox(height: 16.0),
                 InkWell(
                   onTap: () async {
@@ -133,26 +166,38 @@ void initState() {
                   ),
                 ),
                 const SizedBox(height: 16.0),
-                _isSaving? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2,
-                          ),
-                        ): ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(primary2),
-                  ),
-                  onPressed: ()async{
-                    if (_formKey.currentState!.validate()) {
-                      final restaurantName = _selectedRestaurant;
-                      final reservationdtm = _reservationDate;
-                       await reservation.addOrder(date: reservationdtm.toString(),price: 10000, title: restaurantName, type: 'RESTAURANT', userId: widget.auth.currentUser!.uid, context: context);
-                    }
-                  },
-                  child: const Text('Add Reservation',style: TextStyle(color: Colors.white),),
-                ),
+                _isSaving
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(primary2),
+                        ),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            final restaurantName = _selectedRestaurant;
+                            final reservationdtm = _reservationDate;
+                            await reservation.addOrder(
+                                date: reservationdtm.toString(),
+                                price: 10000,
+                                title: restaurantName,
+                                room: firstRoom.toString(),
+                                type: 'RESTAURANT',
+                                userId: widget.auth.currentUser!.uid,
+                                context: context);
+                          }
+                        },
+                        child: const Text(
+                          'Add Reservation',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
               ],
             ),
           ),

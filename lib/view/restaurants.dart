@@ -17,16 +17,71 @@ class Restaurants extends StatefulWidget {
 class _RestaurantsState extends State<Restaurants> {
   Future<List<RestaurantClass>>? _restaurantFuture;
   final Reservation reservation = Reservation();
+  String searchQuery = '';
 
   @override
   void initState() {
     super.initState();
     _restaurantFuture = reservation.getRestaurants();
   }
+
+  List<RestaurantClass> filterRestaurants(List<RestaurantClass> restaurants) {
+    if (searchQuery.isEmpty) {
+      return restaurants;
+    } else {
+      return restaurants
+          .where((restaurant) =>
+              restaurant.name.toLowerCase().contains(searchQuery.toLowerCase()))
+          .toList();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 300,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white70,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          searchQuery = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Search...",
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                      ),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
         body: RefreshIndicator(
           onRefresh: () {
             setState(() {
@@ -42,12 +97,14 @@ class _RestaurantsState extends State<Restaurants> {
               } else if (snapshot.hasError) {
                 return const Center(child: Text('Error retrieving data'));
               } else {
-                List<RestaurantClass> restaurants =
+                List<RestaurantClass> allRestaurants =
                     snapshot.data as List<RestaurantClass>;
+                List<RestaurantClass> filteredRestaurants =
+                    filterRestaurants(allRestaurants);
                 return ListView.builder(
-                  itemCount: restaurants.length,
+                  itemCount: filteredRestaurants.length,
                   itemBuilder: (context, index) {
-                    final restaurant = restaurants[index];
+                    final restaurant = filteredRestaurants[index];
                     return RestaurantCard(
                       auth: widget.auth,
                       firestore: widget.firestore,
@@ -58,14 +115,14 @@ class _RestaurantsState extends State<Restaurants> {
                       location: restaurant.location,
                       rating: restaurant.rating,
                       reviews: restaurant.reviews,
+                      rooms: restaurant.rooms!,
                     );
                   },
                 );
               }
             },
-          ), 
-          
-          )
+          ),
+        ),
       ),
     );
   }

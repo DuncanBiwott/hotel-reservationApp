@@ -38,7 +38,7 @@ class Reservation {
     }
   }
 
-  Future<List<OrderClass>> getOrders({required String userId}) async {
+  Future<List<OrderClass>> getOrders({required String userId, String? orderId}) async {
     QuerySnapshot ordersSnapshot = await FirebaseFirestore.instance
         .collection('orders')
         .where('userId', isEqualTo: userId)
@@ -104,6 +104,7 @@ class Reservation {
     required String title,
     required String type,
     required double price,
+    required String room,
     required String date,
     required BuildContext context,
   }) async {
@@ -140,6 +141,7 @@ class Reservation {
           'title': title,
           'date': date,
           'price': price,
+          'room': room,
         });
 
         // Show success Flushbar

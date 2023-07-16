@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HotelClass {
- final String name;
+  final String name;
   final String image;
-  final double amount;
+  final dynamic amount;
   final String description;
   final String location;
   final String rating;
   final String reviews;
+  final List<dynamic>? rooms;
 
   HotelClass({
     required this.name,
@@ -17,6 +18,7 @@ class HotelClass {
     required this.location,
     required this.rating,
     required this.reviews,
+     this.rooms,
   });
 
   factory HotelClass.fromSnapshot(DocumentSnapshot snapshot) {
@@ -29,6 +31,7 @@ class HotelClass {
       location: data['location'],
       rating: data['rating'],
       reviews: data['reviews'],
+      rooms: List<dynamic>.from(data['rooms']),
     );
   }
 
@@ -41,6 +44,7 @@ class HotelClass {
       'location': location,
       'rating': rating,
       'reviews': reviews,
+      'rooms': rooms,
     };
   }
 }

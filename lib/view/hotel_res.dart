@@ -10,9 +10,10 @@ import '../services/reservation.dart';
 class AddHotelReservationScreen extends StatefulWidget {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
+  final List<dynamic> rooms;
 
   const AddHotelReservationScreen(
-      {super.key, required this.auth, required this.firestore});
+      {super.key, required this.auth, required this.firestore, required this.rooms});
   @override
   _AddHotelReservationScreenState createState() =>
       _AddHotelReservationScreenState();
@@ -32,6 +33,7 @@ class _AddHotelReservationScreenState extends State<AddHotelReservationScreen> {
   List<String> _hotels = [];
   String _selectedHotel = '';
 
+
   Future<List<String>> extractHotelNames() async {
   List<HotelClass> hotelList = await reservation.getHotels();
 
@@ -43,14 +45,22 @@ class _AddHotelReservationScreenState extends State<AddHotelReservationScreen> {
   return hotelNames;
 }
 
+   List<int>roomslist = [];
+  int? firstRoom; 
+
   @override
 void initState() {
   super.initState();
+  widget.rooms.forEach((element) {
+      roomslist.add(element);
+    });
+   firstRoom = roomslist[0];
+
   extractHotelNames().then((value) {
     setState(() {
-      _hotels = value; // Update _hotels directly
+      _hotels = value; 
       if (_hotels.isNotEmpty) {
-        _selectedHotel = _hotels[0]; // Set a default selected value if available
+        _selectedHotel = _hotels[0]; 
       }
     });
   });
@@ -60,7 +70,7 @@ void initState() {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Hotel Reservation'),
+        title: const Text('Reserve an Hotel'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -92,6 +102,24 @@ void initState() {
                   },
                 ),
                 const SizedBox(height: 16.0),
+               DropdownButtonFormField<int>(
+  value: firstRoom,
+  items: roomslist.map((int room) {
+    return DropdownMenuItem<int>(
+      value: room,
+      child: Text(room.toString()),
+    );
+  }).toList(),
+  onChanged: (int? newValue) {
+    setState(() {
+      firstRoom = newValue;
+    });
+  },
+  decoration: InputDecoration(
+    labelText: 'Select a Room',
+  ),
+),
+                 const SizedBox(height: 16.0),
                 Text(
                     'Check-in Date: ${DateFormat('MM/dd/yyyy').format(_checkInDate)}'),
                 ElevatedButton(
@@ -158,6 +186,7 @@ void initState() {
                                   date: checkIn.toString(),
                                   price: 10000,
                                   title: hotelName,
+                                  room: firstRoom.toString(),
                                   type: 'HOTEL',
                                   userId: widget.auth.currentUser!.uid,
                                   context: context);

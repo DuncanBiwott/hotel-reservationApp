@@ -15,57 +15,112 @@ class Hotels extends StatefulWidget {
 }
 
 class _HotelsState extends State<Hotels> {
-   Future<List<HotelClass>>? _hotelFuture;
+  Future<List<HotelClass>>? _hotelFuture;
   final Reservation reservation = Reservation();
+  String searchQuery = '';
 
   @override
   void initState() {
     super.initState();
     _hotelFuture = reservation.getHotels();
   }
+
+  List<HotelClass> filterHotels(List<HotelClass> hotels) {
+    if (searchQuery.isEmpty) {
+      return hotels;
+    } else {
+      return hotels
+          .where((hotel) =>
+              hotel.name.toLowerCase().contains(searchQuery.toLowerCase()))
+          .toList();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body:RefreshIndicator(
-          
-         onRefresh: () {
-          setState(() {
-            _hotelFuture = reservation.getHotels();
-          });
-          return _hotelFuture!;
-        },
-        child: FutureBuilder(
-          future: _hotelFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: Text("Loading....."));
-            } else if (snapshot.hasError) {
-              return const Center(child: Text('Error retrieving data'));
-            } else {
-              List<HotelClass> hotels= snapshot.data as List<HotelClass>;
-              return ListView.builder(
-                itemCount: hotels.length,
-                itemBuilder: (context, index){
-                    final hotel = hotels[index];
+        appBar: AppBar(
+          title: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 300,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white70,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          searchQuery = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Search...",
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                      ),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        body: RefreshIndicator(
+          onRefresh: () {
+            setState(() {
+              _hotelFuture = reservation.getHotels();
+            });
+            return _hotelFuture!;
+          },
+          child: FutureBuilder(
+            future: _hotelFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: Text("Loading....."));
+              } else if (snapshot.hasError) {
+                return const Center(child: Text('Error retrieving data'));
+              } else {
+                List<HotelClass> allHotels = snapshot.data as List<HotelClass>;
+                List<HotelClass> filteredHotels = filterHotels(allHotels);
+                return ListView.builder(
+                  itemCount: filteredHotels.length,
+                  itemBuilder: (context, index) {
+                    final hotel = filteredHotels[index];
                     return HotelCard(
                       auth: widget.auth,
                       firestore: widget.firestore,
                       amount: hotel.amount,
                       image: hotel.image,
                       name: hotel.name,
-                       description: hotel.description,
-                        location: hotel.location,
-                         rating: hotel.rating, 
-                         reviews: hotel.reviews,
+                      description: hotel.description,
+                      location: hotel.location,
+                      rating: hotel.rating,
+                      reviews: hotel.reviews,
+                      rooms: hotel.rooms!,
                     );
-                }
+                  },
                 );
-          }
-          }
+              }
+            },
+          ),
         ),
-          )
-      
       ),
     );
   }

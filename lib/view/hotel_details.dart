@@ -3,6 +3,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tourism/constants/constants.dart';
 import 'package:tourism/view/hotel_res.dart';
 
@@ -16,6 +17,7 @@ class HotelDetailsPage extends StatefulWidget {
   final String reviews;
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
+  final List<dynamic> rooms;
 
   const HotelDetailsPage({
     Key? key,
@@ -25,7 +27,7 @@ class HotelDetailsPage extends StatefulWidget {
     required this.description,
     required this.location,
     required this.rating,
-    required this.reviews, required this.auth, required this.firestore,
+    required this.reviews, required this.auth, required this.firestore, required this.rooms,
   }) : super(key: key);
 
   @override
@@ -34,6 +36,14 @@ class HotelDetailsPage extends StatefulWidget {
 
 class _HotelDetailsPageState extends State<HotelDetailsPage> {
    bool _isOffered = false;
+
+   void shareHotelDetails() {
+    final String text = 'Check out this hotel:\n'
+        'Picture: ${widget.image}\n'
+        'Name: ${widget.name}\n'
+        'Price: \$${widget.amount}\n';
+    Share.share(text);
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -92,7 +102,8 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                             child: IconButton(
                               icon: const Icon(Icons.share),
                               onPressed: () {
-                                // Handle share button press
+                                shareHotelDetails();
+                                
                               },
                             ),
                           ),
@@ -203,6 +214,7 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                                     builder: (context) => AddHotelReservationScreen(
                                           auth: widget.auth,
                                           firestore: widget.firestore,
+                                          rooms: widget.rooms,
                                         )));
                   },
                   style: ElevatedButton.styleFrom(

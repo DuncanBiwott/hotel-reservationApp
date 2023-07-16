@@ -3,6 +3,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tourism/constants/constants.dart';
 import 'package:tourism/view/restaurant_res.dart';
 
@@ -16,6 +17,7 @@ class RestaurantDetailsPage extends StatefulWidget {
   final String reviews;
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
+  final List<dynamic> rooms;
 
   const RestaurantDetailsPage({
     Key? key,
@@ -25,7 +27,7 @@ class RestaurantDetailsPage extends StatefulWidget {
     required this.description,
     required this.location,
     required this.rating,
-    required this.reviews, required this.auth, required this.firestore,
+    required this.reviews, required this.auth, required this.firestore, required this.rooms,
   }) : super(key: key);
 
   @override
@@ -34,6 +36,16 @@ class RestaurantDetailsPage extends StatefulWidget {
 
 class _RestaurantDetailsPageState extends State<RestaurantDetailsPage> {
    bool _isOffered = false;
+
+   void shareHotelDetails() {
+    final String text = 'Check out this hotel:\n'
+        'Name: ${widget.name}\n'
+        'Price: \$${widget.amount}\n';
+    Share.share(text);
+  }
+
+ 
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,6 +57,7 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    
                     Stack(
                       children: [
                         SizedBox(
@@ -92,7 +105,7 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage> {
                             child: IconButton(
                               icon: const Icon(Icons.share),
                               onPressed: () {
-                                // Handle share button press
+                                shareHotelDetails();
                               },
                             ),
                           ),
@@ -203,6 +216,7 @@ class _RestaurantDetailsPageState extends State<RestaurantDetailsPage> {
                                     builder: (context) => AddRestaurantReservationScreen(
                                           auth: widget.auth,
                                           firestore: widget.firestore,
+                                          rooms: widget.rooms,
                                         )));
                     
                   },

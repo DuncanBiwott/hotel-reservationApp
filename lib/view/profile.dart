@@ -39,7 +39,7 @@ class _ProfileState extends State<Profile> {
             IconButton(onPressed: (){
               Navigator.pop(context);},
                icon:  Icon(FontAwesomeIcons.angleLeft,size: 24,)),
-             Padding(
+             const Padding(
               padding: EdgeInsets.only(left:30.0),
               child: Text('My Profile',style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,),),
             ),
@@ -73,7 +73,7 @@ class _ProfileState extends State<Profile> {
                 padding: const EdgeInsets.only(bottom:10.0),
                 child: ListTile(
                   leading:  Icon(FontAwesomeIcons.creditCard,size: 32,),
-                  trailing:  Icon(FontAwesomeIcons.angleRight, ),
+                  trailing:  const Icon(FontAwesomeIcons.angleRight, ),
                   title:  Text("Payments & purchases") ,
                   onTap: () {
                     
@@ -82,7 +82,7 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             Divider(),
-             Text("Settings & Preferences",),
+             const Text("Settings & Preferences",),
             const SizedBox(height: 5,),
             Container(
               height: 50,
@@ -91,7 +91,7 @@ class _ProfileState extends State<Profile> {
                  padding: const EdgeInsets.only(bottom:10.0),
                 child: ListTile(
                   leading:  Icon(Icons.notifications,),
-                  title:  Text('Notification',),
+                  title:  const Text('Notification',),
                   trailing:  Icon(FontAwesomeIcons.angleRight),
                   onTap: () {
                     
@@ -106,8 +106,8 @@ class _ProfileState extends State<Profile> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom:10.0),
                 child: ListTile(
-                  leading:  Icon(Icons.dark_mode),
-                  title:  Text('Dark Mode',),
+                  leading:  const Icon(Icons.dark_mode),
+                  title:  const Text('Dark Mode',),
                   trailing: Switch(
                     value: true, 
                     onChanged: (value) {
@@ -124,9 +124,9 @@ class _ProfileState extends State<Profile> {
               child: Padding(
                  padding: const EdgeInsets.only(bottom:10.0),
                 child: ListTile(
-                  title:  Text('Language',),
-                  leading: Icon(FontAwesomeIcons.language,),
-                  trailing:  Icon(FontAwesomeIcons.angleRight,),
+                  title:  const Text('Language',),
+                  leading: const Icon(FontAwesomeIcons.language,),
+                  trailing:  const Icon(FontAwesomeIcons.angleRight,),
                   onTap: () {
                     
                   },
@@ -140,9 +140,9 @@ class _ProfileState extends State<Profile> {
               child: Padding(
                  padding: const EdgeInsets.only(bottom:10.0),
                 child: ListTile(
-                  title: Text('Security',),
+                  title: const Text('Security',),
                   leading: Icon(FontAwesomeIcons.shield,),
-                 trailing:  Icon(FontAwesomeIcons.angleRight,),
+                 trailing:  const Icon(FontAwesomeIcons.angleRight,),
                   onTap: () {
                     
                   },
@@ -160,7 +160,7 @@ class _ProfileState extends State<Profile> {
                  padding: const EdgeInsets.only(bottom:10.0),
                 child: ListTile(
                       title: Text('Help center'),
-                      leading:  Icon(FontAwesomeIcons.book,),
+                      leading:  const Icon(FontAwesomeIcons.book,),
                       trailing:  Icon(FontAwesomeIcons.angleRight,),
                       onTap: () {
                         
@@ -175,7 +175,7 @@ class _ProfileState extends State<Profile> {
                   child: Padding(
                      padding: const EdgeInsets.only(bottom:10.0),
                     child: ListTile(
-                      title: Text('Report a bug'),
+                      title: const Text('Report a bug'),
                       leading: Icon(FontAwesomeIcons.flag,),
                      trailing:  Icon(FontAwesomeIcons.angleRight,),
                       onTap: () {
@@ -203,7 +203,7 @@ class _ProfileState extends State<Profile> {
                   _showSuccessMessage(rvalue!, Colors.red);
                 }
 
-                }, child:  Row(
+                }, child:  const Row(
                   children: [
                     Icon(FontAwesomeIcons.arrowRightToBracket),
                     SizedBox(width: 10,),

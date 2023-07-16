@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flushbar/flutter_flushbar.dart';
+import 'package:tourism/constants/constants.dart';
 
 import '../controller/Root/auth.dart';
 import 'login.dart';
@@ -59,10 +60,10 @@ class _SignUpState extends State<SignUp> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Center(
+                       Center(
                           child: Text(
                         "Register",
-                        style: TextStyle(color: Colors.black, fontSize: 50),
+                        style: TextStyle(color: primary2, fontSize: 50),
                       )),
                       const SizedBox(
                         height: 20,
@@ -230,7 +231,7 @@ class _SignUpState extends State<SignUp> {
                               },
                               style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all(Colors.black),
+                                    MaterialStateProperty.all(primary2),
                               ),
                               child: const Padding(
                                 padding: EdgeInsets.all(8),

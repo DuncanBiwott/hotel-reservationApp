@@ -5,8 +5,9 @@ class OrderClass {
   final String userId;
   final String title;
   final String type;
-  final double price;
+  final dynamic price;
   final String date;
+  final dynamic room;
 
   OrderClass({
     required this.orderId,
@@ -15,6 +16,7 @@ class OrderClass {
     required this.type,
     required this.price,
     required this.date,
+    required this.room,
   });
 
   factory OrderClass.fromSnapshot(DocumentSnapshot snapshot) {
@@ -26,6 +28,7 @@ class OrderClass {
       type: data['type'],
       price: data['price'].toDouble(),
       date: data['date'],
+      room: data['room'],
     );
   }
 
@@ -36,6 +39,7 @@ class OrderClass {
       'type': type,
       'price': price,
       'date': date,
+      'room': room,
     };
   }
 }
